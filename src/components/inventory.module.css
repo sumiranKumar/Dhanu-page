@@ -1,0 +1,194 @@
+.itemCard {
+  display: grid;
+  margin-top: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  justify-items: center;
+  padding: 40px;
+  background: linear-gradient(
+    135deg,
+    rgba(20, 20, 20, 0.9),
+    rgba(55, 55, 55, 0.6)
+  );
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.formContainer {
+  width: 80%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 25px;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 30, 30, 0.9),
+    rgba(60, 60, 60, 0.6)
+  );
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.formHeader {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup,
+.priceGroup,
+.quantityGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #f1f1f1;
+}
+
+.inputField {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  margin-bottom: 15px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.inputField::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.FixedSize {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  font-size: 1rem;
+  margin-right: 10px;
+  gap: 9px;
+}
+
+.FixedSize button {
+  width: 100px;
+  border-radius: 25px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.FixedSize button:hover {
+  background: rgba(255, 0, 0, 0.25);
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+.priceGroup,
+.quantityGroup {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.priceGroup input,
+.quantityGroup input {
+  width: 100px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.submitButton,
+.addButton,
+.removeButton {
+  position: relative;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.4s ease;
+}
+
+/* Submit button style */
+.submitButton {
+  background: linear-gradient(135deg, #b30000, #ff1a1a);
+  color: #fff;
+}
+
+.submitButton:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(135deg, #ff2b2b, #ff0000);
+  box-shadow: 0 0 18px rgba(255, 0, 0, 0.75), 0 0 25px rgba(255, 80, 80, 0.45);
+}
+
+/* Add button style */
+.addButton {
+  background: linear-gradient(135deg, #007bff, #00aaff);
+  color: #fff;
+}
+
+.addButton:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #00aaff, #0056b3);
+  box-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
+}
+
+/* Remove button style */
+.removeButton {
+  background: linear-gradient(135deg, #ff4c4c, #ff0000);
+  color: #fff;
+}
+
+.removeButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+
+/* ----------------------------------------------------------
+   RESPONSIVE DESIGN
+---------------------------------------------------------- */
+@media (max-width: 768px) {
+  .formContainer {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .form {
+    gap: 15px;
+  }
+
+  .priceGroup,
+  .quantityGroup,
+  .FixedSize {
+    grid-template-columns: 1fr;
+  }
+
+  .submitButton,
+  .addButton,
+  .removeButton {
+    width: 100%;
+  }
+}

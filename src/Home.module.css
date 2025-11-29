@@ -1,0 +1,340 @@
+.ProductHeader {
+  display: flex;
+  justify-content: center;
+}
+
+.allCards {
+  margin-left: 23px;
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+}
+
+.Cards {
+  height: 100%;
+  width: 95%;
+  display: flex;
+  gap: 23px;
+  background: linear-gradient(
+    135deg,
+    rgba(20, 20, 20, 0.9),
+    rgba(55, 55, 55, 0.6)
+  );
+  border-radius: 15px;
+  padding: 18px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.Cards:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.45);
+}
+
+img {
+  height: 300px;
+  width: 300px;
+  border-radius: 10px;
+  gap: 23px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.Cards:hover img {
+  transform: scale(1.03);
+}
+
+.description {
+  justify-content: end;
+  align-items: center;
+}
+
+p {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f1f1f1;
+}
+
+.BTN {
+  position: relative;
+  padding: 12px 20px;
+  margin-top: 63px;
+  width: fit-content;
+  background: linear-gradient(135deg, #b30000, #ff1a1a);
+  color: #ffffff;
+  font-size: 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.4s ease;
+}
+
+.BTN:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(135deg, #ff2b2b, #ff0000);
+  box-shadow: 0 0 18px rgba(255, 0, 0, 0.75), 0 0 25px rgba(255, 80, 80, 0.45);
+}
+
+.BTN:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+.BTN::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.25);
+  transform: skewX(-20deg);
+  transition: 0.6s;
+}
+
+.BTN:hover::after {
+  left: 100%;
+}
+
+button {
+  padding: 8px 12px;
+  margin: 9px;
+  min-width: 70px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease,
+    color 0.25s ease;
+}
+
+button:hover {
+  background: rgba(255, 0, 0, 0.25);
+  color: white;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.sizeButton {
+  border-radius: 25px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.colorButton {
+  border-radius: 25px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.selectedButton {
+  background: rgba(255, 0, 0, 0.5) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 18px rgba(255, 0, 0, 0.7);
+  border: 1px solid rgba(255, 0, 0, 0.5);
+}
+
+.description span {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  .Cards {
+    gap: 15px;
+  }
+  img {
+    height: 250px;
+    width: 250px;
+  }
+  p {
+    font-size: 16px;
+  }
+  button {
+    min-width: 60px;
+  }
+}
+
+@media (max-width: 600px) {
+  .Cards {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+  }
+  img {
+    height: 220px;
+    width: 220px;
+  }
+  .description {
+    align-items: center;
+    justify-content: center;
+  }
+  p {
+    font-size: 16px;
+  }
+  .sizeButton,
+  .colorButton,
+  button {
+    min-width: 50px;
+    font-size: 14px;
+    margin: 6px;
+  }
+  .BTN {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  img {
+    height: 180px;
+    width: 180px;
+  }
+  p {
+    font-size: 14px;
+  }
+  button {
+    min-width: 45px;
+    padding: 6px;
+  }
+  .BTN {
+    font-size: 16px;
+    padding: 8px;
+  }
+}
+
+.sliderContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.sliderContainer img {
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.sliderContainer button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+  z-index: 2;
+}
+
+.sliderContainer button:hover {
+  background: rgba(255, 0, 0, 0.75);
+}
+
+.sliderContainer button:first-of-type {
+  left: -20px;
+}
+
+.sliderContainer button:last-of-type {
+  right: -20px;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalContent {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  align-items: center;
+}
+
+.modalImage {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.modalPrev,
+.modalNext {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 0, 0, 0.5);
+  border: none;
+  padding: 10px 16px;
+  color: white;
+  font-size: 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.modalPrev {
+  left: -50px;
+}
+
+.modalNext {
+  right: -50px;
+}
+
+.modalClose {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sliderContainer .indicator {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  font-size: 14px;
+  color: white;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px 6px;
+  border-radius: 5px;
+}
