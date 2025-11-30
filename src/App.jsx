@@ -62,48 +62,54 @@ function App() {
     setItem((prev) => prev.filter((product) => product.id !== id));
   };
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (
-        <>
-          <Nav />
-          <Home item={item}></Home>
-        </>
-      ),
-    },
-    {
-      path: "/Carts",
-      element: (
-        <>
-          <Nav />
-          <Carts></Carts>
-        </>
-      ),
-    },
-    {
-      path: "/Inventory",
-      element: (
-        <>
-          <Nav />
-          <Inventory
-            addItems={addItems}
-            delteItem={delteItem}
-            item={item}
-          ></Inventory>
-        </>
-      ),
-    },
-    {
-      path: "/customers",
-      element: (
-        <>
-          <Nav />
-          <Sales></Sales>
-        </>
-      ),
-    },
-  ]);
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: (
+          <>
+            <Nav />
+            <Home item={item}></Home>
+          </>
+        ),
+      },
+      {
+        path: "/Carts",
+        element: (
+          <>
+            <Nav />
+            <Carts></Carts>
+          </>
+        ),
+      },
+      {
+        path: "/Inventory",
+        element: (
+          <>
+            <Nav />
+            <Inventory
+              addItems={addItems}
+              delteItem={delteItem}
+              item={item}
+            ></Inventory>
+          </>
+        ),
+      },
+      {
+        path: "/customers",
+        element: (
+          <>
+            <Nav />
+            <Sales></Sales>
+          </>
+        ),
+      },
+    ],
+    { basename: "/Dhanu-page" }
+  );
+  // Use basename so routing works when the app is hosted under
+  // https://username.github.io/Dhanu-page
+  // (createBrowserRouter accepts options as the second argument)
 
   return (
     <div className="Body" onScroll={handleScroll}>
