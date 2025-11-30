@@ -107,9 +107,6 @@ function App() {
     ],
     { basename: "/Dhanu-page" }
   );
-  // Use basename so routing works when the app is hosted under
-  // https://username.github.io/Dhanu-page
-  // (createBrowserRouter accepts options as the second argument)
 
   return (
     <div className="Body" onScroll={handleScroll}>
