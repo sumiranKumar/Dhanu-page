@@ -33,6 +33,11 @@
   transform: translateY(-6px);
   box-shadow: 0 0 25px rgba(255, 0, 0, 0.45);
 }
+.outOfStock {
+  color: #ff4c4c;
+  font-weight: bold;
+  margin-top: 10px;
+}
 
 img {
   height: 300px;

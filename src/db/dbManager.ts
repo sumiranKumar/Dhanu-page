@@ -11,9 +11,7 @@ const getDbManager = (storeName: string) => {
     update: (data: any) => dbManager.update(storeName, data),
     removeById: (id: string) => dbManager.remove(storeName, id),
     get: (id: string) => dbManager.get(storeName, id),
- removeAll: () => dbManager.removeAll(storeName),
- 
-
+    removeAll: () => dbManager.removeAll(storeName),
   };
 };
 

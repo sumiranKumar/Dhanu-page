@@ -11,8 +11,6 @@ const Home = () => {
   const [selectedSize, setSelectedSize] = useState({});
   const [selectedItemData, setSelectedItemData] = useState({});
   const [currentSlide, setCurrentSlide] = useState({});
-
-  // Fullscreen modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalItemId, setModalItemId] = useState(null);
   const [modalSlide, setModalSlide] = useState(0);
@@ -76,6 +74,12 @@ const Home = () => {
     const selectedItem = await inventoryDBManager.get(id);
     if (!selectedItem) return;
 
+    const itemStock = selectedItem.color[color][size]?.quantity || 0;
+    if (itemStock <= 0) {
+      alert("Item is out of stock");
+      return;
+    }
+
     const existing = (await cartDBManager.getAll()).find(
       (i) =>
         i.productId === id &&
@@ -111,7 +115,9 @@ const Home = () => {
         i.selectedColor === color &&
         i.selectedSize === size
     );
-    if (existing) {
+    const product = await inventoryDBManager.get(id);
+    const itemStock = product?.color[color]?.[size]?.quantity || 0;
+    if (existing && existing.quantity < itemStock) {
       await cartDBManager.update({
         ...existing,
         quantity: existing.quantity + 1,
@@ -133,7 +139,7 @@ const Home = () => {
         quantity: existing.quantity - 1,
       });
     } else if (existing && existing.quantity === 1) {
-      await cartDBManager.delete(existing.id);
+      await cartDBManager.removeById(existing.id);
     }
     await refreshCartData();
   };
@@ -175,15 +181,11 @@ const Home = () => {
     setModalOpen(true);
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
+  const closeModal = () => setModalOpen(false);
   const modalPrev = () => {
     const images = items.find((i) => i.id === modalItemId)?.images || [];
     setModalSlide((prev) => (prev - 1 + images.length) % images.length);
   };
-
   const modalNext = () => {
     const images = items.find((i) => i.id === modalItemId)?.images || [];
     setModalSlide((prev) => (prev + 1) % images.length);
@@ -204,11 +206,9 @@ const Home = () => {
           return (
             <div key={item.id} className={styles.Cards}>
               <div className={styles.sliderContainer}>
-                {/* Show buttons only if more than 1 image */}
                 {imageCount > 1 && (
                   <button onClick={() => prevSlide(item.id)}>❮</button>
                 )}
-
                 <img
                   src={
                     imageCount > 0
@@ -223,11 +223,9 @@ const Home = () => {
                   className={styles.sliderImage}
                   onClick={() => openModal(item.id, currentSlide[item.id] || 0)}
                 />
-
                 {imageCount > 1 && (
                   <button onClick={() => nextSlide(item.id)}>❯</button>
                 )}
-
                 <p className={styles.indicator}>
                   {imageCount > 0 ? (currentSlide[item.id] || 0) + 1 : 0}/
                   {imageCount}
@@ -273,50 +271,54 @@ const Home = () => {
                 </p>
 
                 {selectedColor[item.id] && selectedSize[item.id] && (
-                  <p>Price: Rs {selectedItemData[item.id]?.price || "00"}</p>
-                )}
-
-                <button
-                  className={styles.BTN}
-                  onClick={() => handleOnClick(item.id)}
-                  disabled={!selectedColor[item.id] || !selectedSize[item.id]}
-                >
-                  <MdOutlineShoppingCartCheckout /> Add To Cart
-                </button>
-
-                {selectedColor[item.id] && selectedSize[item.id] && (
                   <>
-                    <button
-                      onClick={() =>
-                        handleCartQuntityDecrease(
-                          item.id,
-                          selectedColor[item.id],
-                          selectedSize[item.id]
-                        )
-                      }
-                    >
-                      -
-                    </button>
-
-                    <span>
-                      {getCartQuantity(
-                        item.id,
-                        selectedColor[item.id],
-                        selectedSize[item.id]
-                      )}
-                    </span>
-
-                    <button
-                      onClick={() =>
-                        handleCartQuntityIncrease(
-                          item.id,
-                          selectedColor[item.id],
-                          selectedSize[item.id]
-                        )
-                      }
-                    >
-                      +
-                    </button>
+                    <p>Price: Rs {selectedItemData[item.id]?.price || "00"}</p>
+                    {selectedItemData[item.id]?.quantity === 0 ? (
+                      <p className={styles.outOfStock}>Out of Stock</p>
+                    ) : (
+                      <button
+                        className={styles.BTN}
+                        onClick={() => handleOnClick(item.id)}
+                        disabled={
+                          !selectedColor[item.id] || !selectedSize[item.id]
+                        }
+                      >
+                        <MdOutlineShoppingCartCheckout /> Add To Cart
+                      </button>
+                    )}
+                    {selectedItemData[item.id]?.quantity > 0 && (
+                      <>
+                        <button
+                          onClick={() =>
+                            handleCartQuntityDecrease(
+                              item.id,
+                              selectedColor[item.id],
+                              selectedSize[item.id]
+                            )
+                          }
+                        >
+                          -
+                        </button>
+                        <span>
+                          {getCartQuantity(
+                            item.id,
+                            selectedColor[item.id],
+                            selectedSize[item.id]
+                          )}
+                        </span>
+                        <button
+                          onClick={() =>
+                            handleCartQuntityIncrease(
+                              item.id,
+                              selectedColor[item.id],
+                              selectedSize[item.id]
+                            )
+                          }
+                        >
+                          +
+                        </button>
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -325,7 +327,6 @@ const Home = () => {
         })}
       </div>
 
-      {/* Modal for fullscreen slider */}
       {modalOpen && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div

@@ -1,32 +1,45 @@
 import { useEffect, useState } from "react";
+import {
+  cartDBManager,
+  inventoryDBManager,
+  salesDBManager,
+} from "../db/dbManager";
 import styles from "./Cart.module.css";
-import { cartDBManager, salesDBManager } from "../db/dbManager";
-
 const Carts = () => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    const fetchCartItems = async () => {
+    const fetchCart = async () => {
       const items = await cartDBManager.getAll();
       setCartItems(items);
     };
-    fetchCartItems();
+    fetchCart();
   }, []);
 
   const total = cartItems.reduce(
-    (sum, item) => sum + (item.price || 0) * (item.quantity || 1),
+    (sum, item) => sum + Number(item.price) * Number(item.quantity),
     0
   );
 
-  const handleBuyButton = async () => {
-    if (cartItems.length === 0) return;
-
+  const handleBuy = async () => {
+    if (!cartItems.length) return;
+    const salesList = [...cartItems];
+    for (const cartItem of cartItems) {
+      const product = await inventoryDBManager.get(cartItem.productId);
+      if (!product) continue;
+      const color = cartItem.selectedColor;
+      const size = cartItem.selectedSize;
+      const currentQty = Number(product.color[color][size].quantity) || 0;
+      const purchaseQty = Number(cartItem.quantity) || 1;
+      product.color[color][size].quantity = Math.max(
+        currentQty - purchaseQty,
+        0
+      );
+      await inventoryDBManager.update(product);
+    }
     const currentDate = new Date().toISOString().split("T")[0];
-    const salesList = await cartDBManager.getAll();
-    const finalSalesDbManager = [currentDate, ...salesList];
-
-    await salesDBManager.add(finalSalesDbManager);
-    await cartDBManager.removeAll("CARTS");
+    await salesDBManager.add({ date: currentDate, items: salesList });
+    await cartDBManager.removeAll();
     setCartItems([]);
   };
 
@@ -40,11 +53,6 @@ const Carts = () => {
           <div className={styles.cartContainer}>
             {cartItems.map((item) => (
               <div key={item.id} className={styles.cartCard}>
-                <img
-                  src={item.image || "/default-image.png"}
-                  alt={item.name}
-                  className={styles.cartImage}
-                />
                 <div className={styles.cartDetails}>
                   <h2>{item.name}</h2>
                   <p>Color: {item.selectedColor}</p>
@@ -55,10 +63,9 @@ const Carts = () => {
               </div>
             ))}
           </div>
-
           <div className={styles.totalSection}>
             <h2>Total: Rs{total}</h2>
-            <button className={styles.checkoutBtn} onClick={handleBuyButton}>
+            <button className={styles.checkoutBtn} onClick={handleBuy}>
               Buy Now
             </button>
           </div>

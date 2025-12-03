@@ -1,6 +1,10 @@
 header {
-  background: linear-gradient(135deg, rgba(20,20,20,0.9), rgba(55,55,55,0.6));
-  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(20, 20, 20, 0.9),
+    rgba(55, 55, 55, 0.6)
+  );
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   padding: 15px 20px;
   position: sticky;
   top: 0;
@@ -21,7 +25,7 @@ header {
 .NavLogo img {
   height: 50px;
   width: 50px;
- 
+
   object-fit: contain;
 }
 
@@ -32,7 +36,7 @@ header {
 
 .NavSearch .search {
   width: 90%;
-  margin-left:10%;
+  margin-left: 10%;
   padding: 6px 10px;
   border-radius: 10px;
   border: none;
