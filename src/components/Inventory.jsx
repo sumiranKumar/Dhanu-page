@@ -82,6 +82,7 @@ const Inventory = ({ addItems, item, delteItem }) => {
     });
 
     const newProduct = {
+      id: crypto.randomUUID(),
       name: ClothName,
       desc,
       images,
@@ -92,9 +93,84 @@ const Inventory = ({ addItems, item, delteItem }) => {
     addItems(newProduct);
 
     setClothName("");
-    setinventory([{}]);
+    setinventory([
+      {
+        color: "",
+        priceXS: "",
+        priceS: "",
+        priceM: "",
+        priceL: "",
+        priceXL: "",
+        priceXxl: "",
+        quantityXs: "",
+        quantityS: "",
+        quantityM: "",
+        quantityL: "",
+        quantityXl: "",
+        quantityXxl: "",
+      },
+    ]);
     setdesc("");
     setImages([]);
+  };
+
+  // --- Display Cards: One card per color ---
+  const renderCards = () => {
+    const cards = [];
+    item.forEach((data) => {
+      Object.entries(data.color || {}).forEach(([colorName, sizes]) => {
+        cards.push(
+          <div
+            className="card cards"
+            style={{
+              width: "18rem",
+              margin: "10px",
+              background: "black",
+              color: "white",
+            }}
+            key={`${data.id}-${colorName}`}
+          >
+            {data.images && data.images.length > 0 && (
+              <div style={{ display: "flex", overflowX: "auto" }}>
+                {data.images.map((img, i) => (
+                  <img
+                    key={i}
+                    src={URL.createObjectURL(img)}
+                    style={{
+                      width: "100%",
+                      height: "200px",
+                      objectFit: "cover",
+                      marginRight: "5px",
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className="card-body">
+              <h5>{data.name}</h5>
+              <h6>Color: {colorName}</h6>
+              <p>{data.desc}</p>
+
+              {Object.entries(sizes).map(([size, info]) => (
+                <p key={size}>
+                  <strong>{size}</strong> — Qty: {info.quantity} | Price: ₹
+                  {info.price}
+                </p>
+              ))}
+
+              <button
+                className={`btn btn-danger ${styles.btn}`}
+                onClick={() => delteItem(data.id, colorName)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        );
+      });
+    });
+    return cards;
   };
 
   return (
@@ -139,6 +215,7 @@ const Inventory = ({ addItems, item, delteItem }) => {
           {inventory.map((colorBlock, index) => (
             <div key={index} className={styles.colorBlock}>
               <h3>Color {index + 1}</h3>
+
               <div className={styles.colorInputGroup}>
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>Color</label>
@@ -166,118 +243,38 @@ const Inventory = ({ addItems, item, delteItem }) => {
 
               <div className={styles.priceGroup}>
                 <label className={styles.label}>Price</label>
-                <input
-                  type="text"
-                  className={styles.inputField}
-                  placeholder="Price of XS"
-                  value={colorBlock.priceXS}
-                  onChange={(e) =>
-                    handleByColorChange(index, "priceXS", e.target.value)
-                  }
-                />
-                <input
-                  type="text"
-                  className={styles.inputField}
-                  placeholder="Price of S"
-                  value={colorBlock.priceS}
-                  onChange={(e) =>
-                    handleByColorChange(index, "priceS", e.target.value)
-                  }
-                />
-                <input
-                  type="text"
-                  className={styles.inputField}
-                  placeholder="Price of M"
-                  value={colorBlock.priceM}
-                  onChange={(e) =>
-                    handleByColorChange(index, "priceM", e.target.value)
-                  }
-                />
-                <input
-                  type="text"
-                  className={styles.inputField}
-                  placeholder="Price of L"
-                  value={colorBlock.priceL}
-                  onChange={(e) =>
-                    handleByColorChange(index, "priceL", e.target.value)
-                  }
-                />
-                <input
-                  type="text"
-                  className={styles.inputField}
-                  placeholder="Price of XL"
-                  value={colorBlock.priceXL}
-                  onChange={(e) =>
-                    handleByColorChange(index, "priceXL", e.target.value)
-                  }
-                />
-                <input
-                  type="text"
-                  className={styles.inputField}
-                  placeholder="Price of XXL"
-                  value={colorBlock.priceXxl}
-                  onChange={(e) =>
-                    handleByColorChange(index, "priceXxl", e.target.value)
-                  }
-                />
+                {["XS", "S", "M", "L", "XL", "Xxl"].map((size) => (
+                  <input
+                    key={size}
+                    type="text"
+                    className={styles.inputField}
+                    placeholder={`Price ${size}`}
+                    value={colorBlock[`price${size}`]}
+                    onChange={(e) =>
+                      handleByColorChange(index, `price${size}`, e.target.value)
+                    }
+                  />
+                ))}
               </div>
 
               <div className={styles.quantityGroup}>
                 <label className={styles.label}>Quantity</label>
-                <input
-                  type="number"
-                  className={styles.inputField}
-                  placeholder="Quantity XS"
-                  value={colorBlock.quantityXs}
-                  onChange={(e) =>
-                    handleByColorChange(index, "quantityXs", e.target.value)
-                  }
-                />
-                <input
-                  type="number"
-                  className={styles.inputField}
-                  placeholder="Quantity S"
-                  value={colorBlock.quantityS}
-                  onChange={(e) =>
-                    handleByColorChange(index, "quantityS", e.target.value)
-                  }
-                />
-                <input
-                  type="number"
-                  className={styles.inputField}
-                  placeholder="Quantity M"
-                  value={colorBlock.quantityM}
-                  onChange={(e) =>
-                    handleByColorChange(index, "quantityM", e.target.value)
-                  }
-                />
-                <input
-                  type="number"
-                  className={styles.inputField}
-                  placeholder="Quantity L"
-                  value={colorBlock.quantityL}
-                  onChange={(e) =>
-                    handleByColorChange(index, "quantityL", e.target.value)
-                  }
-                />
-                <input
-                  type="number"
-                  className={styles.inputField}
-                  placeholder="Quantity XL"
-                  value={colorBlock.quantityXl}
-                  onChange={(e) =>
-                    handleByColorChange(index, "quantityXl", e.target.value)
-                  }
-                />
-                <input
-                  type="number"
-                  className={styles.inputField}
-                  placeholder="Quantity XXL"
-                  value={colorBlock.quantityXxl}
-                  onChange={(e) =>
-                    handleByColorChange(index, "quantityXxl", e.target.value)
-                  }
-                />
+                {["Xs", "S", "M", "L", "Xl", "Xxl"].map((size) => (
+                  <input
+                    key={size}
+                    type="number"
+                    className={styles.inputField}
+                    placeholder={`Quantity ${size}`}
+                    value={colorBlock[`quantity${size}`]}
+                    onChange={(e) =>
+                      handleByColorChange(
+                        index,
+                        `quantity${size}`,
+                        e.target.value
+                      )
+                    }
+                  />
+                ))}
               </div>
 
               <hr style={{ margin: "20px 0" }} />
@@ -308,59 +305,7 @@ const Inventory = ({ addItems, item, delteItem }) => {
         </form>
       </div>
 
-      <div className={styles.itemCard}>
-        {item.map((data) =>
-          Object.entries(data.color || {}).map(([colorName, sizes]) => (
-            <div
-              className="card cards"
-              style={{
-                width: "18rem",
-                margin: "10px",
-                background: "black",
-                color: "white",
-              }}
-              key={data.id}
-            >
-              {data.images && data.images.length > 0 && (
-                <div style={{ display: "flex", overflowX: "auto" }}>
-                  {data.images.map((img, i) => (
-                    <img
-                      key={i}
-                      src={URL.createObjectURL(img)}
-                      style={{
-                        width: "100%",
-                        height: "200px",
-                        objectFit: "cover",
-                        marginRight: "5px",
-                      }}
-                    />
-                  ))}
-                </div>
-              )}
-
-              <div className="card-body">
-                <h5>{data.name}</h5>
-                <h6>Color: {colorName}</h6>
-                <p>{data.desc}</p>
-
-                {Object.entries(sizes).map(([size, info]) => (
-                  <p key={size}>
-                    <strong>{size}</strong> — Qty: {info.quantity} | Price: ₹
-                    {info.price}
-                  </p>
-                ))}
-
-                <button
-                  className={`btn btn-danger ${styles.btn}`}
-                  onClick={() => delteItem(data.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+      <div className={styles.itemCard}>{renderCards()}</div>
     </>
   );
 };

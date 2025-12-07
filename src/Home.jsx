@@ -169,7 +169,7 @@ const Home = () => {
       ...prev,
       [itemId]:
         (prev[itemId] || 0) + 1 >=
-        (items.find((it) => it.id === itemId)?.images?.length || 1)
+        (items.find((it) => it.id === itemId)?.images?.length || 1) 
           ? 0
           : (prev[itemId] || 0) + 1,
     }));
