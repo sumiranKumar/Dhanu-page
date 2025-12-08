@@ -82,7 +82,7 @@ const Inventory = ({ addItems, item, delteItem }) => {
     });
 
     const newProduct = {
-      id: crypto.randomUUID(),
+      
       name: ClothName,
       desc,
       images,
